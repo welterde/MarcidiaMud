@@ -1,0 +1,12 @@
+Index.dat
+Storage.dat
+*.suo
+*.user
+*.gpState
+*.*~
+*.swp
+*.cache
+bin/
+obj/
+build/
+dist/
