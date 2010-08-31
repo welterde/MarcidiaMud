@@ -17,4 +17,24 @@ namespace Marcidia.Server
             mud.Run();
         }
     }
+
+    class MarcidiaMud : Mud
+    {
+        ILogger logger;
+
+        public MarcidiaMud()
+        {
+            LogComponent loggingComponent = new LogComponent(this);
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+
+            logger = Services.GetService<ILogger>();
+
+            logger.Log(LogLevels.Standard, "Loaded Components");
+        }
+
+    }
 }
