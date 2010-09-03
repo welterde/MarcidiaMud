@@ -5,6 +5,7 @@ using System.Text;
 using Marcidia.Logging;
 using System.IO;
 using System.Threading;
+using Marcidia.ComponentLoading;
 
 namespace Marcidia.Server
 {
@@ -25,6 +26,10 @@ namespace Marcidia.Server
         public MarcidiaMud()
         {
             LogComponent loggingComponent = new LogComponent(this);
+            Components.Add(loggingComponent);
+
+            AutoComponentLoader componentLoader = new AutoComponentLoader(this);
+            Components.Add(componentLoader);
         }
 
         protected override void Initialize()

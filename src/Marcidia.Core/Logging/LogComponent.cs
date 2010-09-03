@@ -19,8 +19,7 @@ namespace Marcidia.Logging
             : base(mud)
         {
             logDispatcher = new LogDispatcher();
-
-            mud.Components.Add(this);
+            
             mud.Services.AddService<ILogger>(logDispatcher);
             mud.Services.AddService<ILogDispatcher>(logDispatcher);
         }
