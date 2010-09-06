@@ -73,6 +73,7 @@
     <Compile Include="ComponentModel\MarcidiaComponentAttribute.cs" />
     <Compile Include="ComponentModel\MarcidiaComponentCollection.cs" />
     <Compile Include="ComponentModel\MarcidiaComponentEventArgs.cs" />
+    <Compile Include="ComponentModel\MarcidiaWorkerComponent.cs" />
     <Compile Include="ComponentModel\ServicesCollection.cs" />
     <Compile Include="Logging\Configuration\FileLoggerConfigurationHandler.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
