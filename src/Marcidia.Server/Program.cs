@@ -6,6 +6,7 @@ using Marcidia.Logging;
 using System.IO;
 using System.Threading;
 using Marcidia.ComponentLoading;
+using Marcidia.Net;
 
 namespace Marcidia.Server
 {
@@ -30,6 +31,9 @@ namespace Marcidia.Server
 
             AutoComponentLoader componentLoader = new AutoComponentLoader(this);
             Components.Add(componentLoader);
+
+            ConnectionComponent connectionComponent = new ConnectionComponent(this);
+            Components.Add(connectionComponent);
         }
 
         protected override void Initialize()

@@ -7,5 +7,6 @@ namespace Marcidia.Net
 {
     public interface IConnectionHandler
     {
+        void HandleConnection(IConnection connection);
     }
 }

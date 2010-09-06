@@ -9,13 +9,18 @@ namespace Marcidia
 {
     public abstract class Mud
     {
+        bool initialized;
+        bool shuttingDown;
         AutoResetEvent shutdownSignal;
 
         public Mud()
         {
             shutdownSignal = new AutoResetEvent(false);
-            Components = new MarcidiaComponentCollection();
+            Components = new MarcidiaComponentCollection();           
             Services = new ServiceCollection();
+
+            Components.ComponentAdded += Components_ComponentAdded;
+            Components.ComponentRemoved += new EventHandler<MarcidiaComponentEventArgs>(Components_ComponentRemoved);
         }
 
         public event EventHandler Initializing;
@@ -31,7 +36,7 @@ namespace Marcidia
         protected virtual void OnInitialized()
         {
             if (Initialized != null)
-                Initialized(this, EventArgs.Empty);
+                Initialized(this, EventArgs.Empty);            
         }
 
         public event EventHandler ShuttingDown;
@@ -69,10 +74,16 @@ namespace Marcidia
 
         protected virtual void Initialize()
         {
+            OnInitializing();
+
             foreach (var component in Components)
             {
                 component.Initialize();
             }
+
+            initialized = true;
+            
+            OnInitialized();
         }
         
         private void WaitForShutdownSignal()
@@ -82,12 +93,34 @@ namespace Marcidia
 
         private void DisposeComponents()
         {
+            shuttingDown = true;
+            OnShuttingDown();
+
             foreach (var disposableComponent in Components.OfType<IDisposable>())
             {
                 disposableComponent.Dispose();
             }
 
             Components.Clear();
-        }                
+
+            OnShutdownCompleted();
+        }
+
+        void Components_ComponentRemoved(object sender, MarcidiaComponentEventArgs e)
+        {
+            if (!shuttingDown)
+            {
+                IDisposable disposable = e.Component as IDisposable;
+
+                if (disposable != null)
+                    disposable.Dispose();
+            }
+        }
+
+        void Components_ComponentAdded(object sender, MarcidiaComponentEventArgs e)
+        {
+            if (initialized)
+                e.Component.Initialize();
+        }
     }
 }
