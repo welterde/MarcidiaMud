@@ -35,10 +35,7 @@ namespace Marcidia.Server
             Components.Add(componentLoader);
 
             ConnectionComponent connectionComponent = new ConnectionComponent(this);
-            Components.Add(connectionComponent);
-
-            CommandLineComponent cmdLineComponent = new CommandLineComponent(this);
-            Components.Add(cmdLineComponent);
+            Components.Add(connectionComponent);            
         }
 
         protected override void Initialize()

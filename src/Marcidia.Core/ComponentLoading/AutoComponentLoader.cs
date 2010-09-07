@@ -13,7 +13,10 @@ namespace Marcidia.ComponentLoading
     {
         private ILogger logger;
         private Mud mud;
-        private const string ComponentsFolder = "Components";
+        private string[] IgnoredAssemblies =
+        {
+            "Marcidia.Core"
+        };
 
         public AutoComponentLoader(Mud mud)
             : base(mud)
@@ -30,16 +33,13 @@ namespace Marcidia.ComponentLoading
 
         private  void LoadComponents()
         {
-            if (!Directory.Exists(ComponentsFolder))
-                return;
-
-            string[] assemblyFiles = Directory.GetFiles(ComponentsFolder, "*.dll");
+            string[] assemblyNames = GetAssemblyNames();
 
             List<MarcidiaComponent> loadedComponents = new List<MarcidiaComponent>();
 
-            foreach (var assemblyFile in assemblyFiles)
+            foreach (var assemblyName in assemblyNames.Where(a => !IgnoredAssemblies.Contains(a)))
             {
-                Assembly assembly = Assembly.LoadFile(assemblyFile);
+                Assembly assembly = Assembly.Load(assemblyName);
                 
                 loadedComponents.AddRange(LoadComponentsFromAssembly(assembly));                
             }
@@ -55,6 +55,17 @@ namespace Marcidia.ComponentLoading
             }
         }
 
+        private static string[] GetAssemblyNames()
+        {
+            string[] assemblyFiles = Directory.GetFiles(".\\", "*.dll");
+
+            for (int i = 0; i < assemblyFiles.Length; i++)
+            {
+                assemblyFiles[i] = Path.GetFileName(assemblyFiles[i]).Replace(".dll", string.Empty);
+            }
+
+            return assemblyFiles;
+        }
         private IEnumerable<MarcidiaComponent> LoadComponentsFromAssembly(Assembly assembly)
         {
             List<MarcidiaComponent> loadedComponents = new List<MarcidiaComponent>();

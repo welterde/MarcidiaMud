@@ -10,14 +10,14 @@ namespace Marcidia.Net
         string ConnectionType { get; }
         string ConnectionEndPoint { get; }
 
-        public bool Connected { get; }
-        public bool DataAvailable { get; }
+        bool Connected { get; }
+        bool DataAvailable { get; }
 
         event EventHandler ConnectionLost;
         event EventHandler ConnectionClosed;
 
-        public int Read(byte[] buffer, int offset, int count);
-        public void Write(byte[] buffer, int offset, int count);
-        public void Close();
+        int Read(byte[] buffer, int offset, int count);
+        void Write(byte[] buffer, int offset, int count);
+        void Close();
     }
 }
