@@ -85,9 +85,12 @@
     <Compile Include="Logging\LogDispatcher.cs" />
     <Compile Include="Mud.cs" />
     <Compile Include="Net\ConnectionComponent.cs" />
+    <Compile Include="Net\ConnectionEventArgs.cs" />
     <Compile Include="Net\IConnection.cs" />
     <Compile Include="Net\IConnectionHandler.cs" />
+    <Compile Include="Net\IConnectionHandlerRegistrar.cs" />
     <Compile Include="Net\IConnectionSource.cs" />
+    <Compile Include="Net\IConnectionSourceRegistrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

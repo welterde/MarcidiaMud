@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Marcidia.ComponentModel;
 using Marcidia;
+using Marcidia.ComponentModel;
 
 namespace Marcidia.Net
 {
     [MarcidiaComponent(
         "Network and Connections Subsystem", false, 
         Description="The core component of the Network and Connection sub system")]
-    public class ConnectionComponent : MarcidiaComponent, IDisposable
+    public class ConnectionComponent : MarcidiaComponent, IDisposable, IConnectionSourceRegistrar, IConnectionHandlerRegistrar
     {
         Dictionary<string, IConnectionSource> connectionSources;
         Dictionary<string, IConnectionHandler> sourceToHandlerMap;
@@ -22,6 +22,9 @@ namespace Marcidia.Net
             sourceToHandlerMap = new Dictionary<string, IConnectionHandler>();
 
             mud.Initialized += mud_Initialized;
+
+            mud.Services.AddService<IConnectionHandlerRegistrar>(this);
+            mud.Services.AddService<IConnectionSourceRegistrar>(this);
         }        
 
         public override void Initialize()
