@@ -10,8 +10,7 @@ namespace Marcidia.Net
         string ConnectionType { get; }
         string ConnectionEndPoint { get; }
 
-        bool Connected { get; }
-        bool DataAvailable { get; }
+        bool Connected { get; }        
 
         event EventHandler ConnectionLost;
         event EventHandler ConnectionClosed;

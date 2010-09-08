@@ -31,11 +31,11 @@ namespace Marcidia.Server
             LogComponent loggingComponent = new LogComponent(this);
             Components.Add(loggingComponent);
 
+            ConnectionComponent connectionComponent = new ConnectionComponent(this);
+            Components.Add(connectionComponent);
+
             AutoComponentLoader componentLoader = new AutoComponentLoader(this);
             Components.Add(componentLoader);
-
-            ConnectionComponent connectionComponent = new ConnectionComponent(this);
-            Components.Add(connectionComponent);            
         }
 
         protected override void Initialize()
@@ -46,6 +46,5 @@ namespace Marcidia.Server
 
             logger.Log(LogLevels.Standard, "Loaded Components");
         }
-
     }
 }

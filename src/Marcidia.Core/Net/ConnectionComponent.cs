@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Marcidia;
 using Marcidia.ComponentModel;
+using Marcidia.Logging;
 
 namespace Marcidia.Net
 {
@@ -14,6 +15,7 @@ namespace Marcidia.Net
     {
         Dictionary<string, IConnectionSource> connectionSources;
         Dictionary<string, IConnectionHandler> sourceToHandlerMap;
+        ILogger logger;
 
         public ConnectionComponent(Mud mud)
             : base(mud)
@@ -29,7 +31,7 @@ namespace Marcidia.Net
 
         public override void Initialize()
         {
-            // We don't need to do anything
+            logger = Mud.Services.GetService<ILogger>();
         }
 
         public void RegisterConnectionSource(string name, IConnectionSource connectionSource)
@@ -85,6 +87,10 @@ namespace Marcidia.Net
                 {
                     connectionSource.NewConnection += connectionSource_NewConnection;
                     connectionSource.Start();
+                }
+                else
+                {
+                    logger.Log(LogLevels.Warning, "Connection source {0} was registered but has no connection handler", sourceName);
                 }
 
             }

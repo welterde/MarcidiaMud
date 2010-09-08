@@ -76,7 +76,7 @@ namespace Marcidia
         {
             OnInitializing();
 
-            foreach (var component in Components)
+            foreach (var component in Components.ToArray())
             {
                 component.Initialize();
             }
