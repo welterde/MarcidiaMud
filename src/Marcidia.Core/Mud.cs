@@ -49,7 +49,6 @@ namespace Marcidia
 
         public event EventHandler ShutdownCompleted;
 
-
         protected virtual void OnShutdownCompleted()
         {
             if (ShutdownCompleted != null)

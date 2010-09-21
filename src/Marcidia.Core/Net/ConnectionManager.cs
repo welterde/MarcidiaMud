@@ -11,22 +11,25 @@ namespace Marcidia.Net
     [MarcidiaComponent(
         "Network and Connections Subsystem", false, 
         Description="The core component of the Network and Connection sub system")]
-    public class ConnectionComponent : MarcidiaComponent, IDisposable, IConnectionSourceRegistrar, IConnectionHandlerRegistrar
+    public class ConnectionManager : MarcidiaComponent, IDisposable, IConnectionSourceRegistrar, IConnectionHandlerRegistrar, IConnectionManager
     {
+        List<IConnection> connections;
         Dictionary<string, IConnectionSource> connectionSources;
         Dictionary<string, IConnectionHandler> sourceToHandlerMap;
         ILogger logger;
 
-        public ConnectionComponent(Mud mud)
+        public ConnectionManager(Mud mud)
             : base(mud)
         {
             connectionSources = new Dictionary<string, IConnectionSource>();
             sourceToHandlerMap = new Dictionary<string, IConnectionHandler>();
+            connections = new List<IConnection>();
 
-            mud.Initialized += mud_Initialized;
+            mud.Initialized += (s, e) => WireUpConnectionHandlersToSources();
 
             mud.Services.AddService<IConnectionHandlerRegistrar>(this);
             mud.Services.AddService<IConnectionSourceRegistrar>(this);
+            mud.Services.AddService<IConnectionManager>(this);
         }        
 
         public override void Initialize()
@@ -65,16 +68,22 @@ namespace Marcidia.Net
             sourceToHandlerMap.Add(sourceName, connectionHandler);
         }
 
+        public IEnumerable<IConnection> GetAllConnections()
+        {
+            lock (connections)
+                return connections.ToArray();
+        }
+
         public void Dispose()
         {
             foreach (var connectionSource in connectionSources.Values)
             {
-                connectionSource.NewConnection -= connectionSource_NewConnection;
+                connectionSource.NewConnection -= OnNewConnection;
                 connectionSource.Stop();                
             }
         }
 
-        private void mud_Initialized(object sender, EventArgs e)
+        private void WireUpConnectionHandlersToSources()
         {
             // As we need to wait until everything is initialized prior to wiring everything up,
             // we tie into the mud initialized event. Here we check for matching sources and handlers and wire them up
@@ -85,7 +94,7 @@ namespace Marcidia.Net
 
                 if (sourceToHandlerMap.ContainsKey(sourceName))
                 {
-                    connectionSource.NewConnection += connectionSource_NewConnection;
+                    connectionSource.NewConnection += OnNewConnection;
                     connectionSource.Start();
                 }
                 else
@@ -96,13 +105,31 @@ namespace Marcidia.Net
             }
         }
 
-        private void connectionSource_NewConnection(object sender, ConnectionEventArgs e)
+        private void OnNewConnection(object sender, ConnectionEventArgs e)
         {
+            lock (connections)
+            {
+                connections.Add(e.Connection);
+
+                e.Connection.ConnectionLost += OnConnectionClosedOrLost;
+                e.Connection.ConnectionClosed += OnConnectionClosedOrLost;
+            }
+
             string connectionSourceKey = connectionSources.Single(s => s.Value == sender).Key;
 
             IConnectionHandler handler = sourceToHandlerMap[connectionSourceKey];
 
             handler.HandleConnection(e.Connection);
+        }
+
+        private void OnConnectionClosedOrLost(object sender, EventArgs e)
+        {
+            IConnection connection = (IConnection)sender;
+
+            lock (connections)
+            {
+                connections.Remove(connection);
+            }
         }
     }
 }
