@@ -115,6 +115,8 @@ namespace Marcidia.Net
                 e.Connection.ConnectionClosed += OnConnectionClosedOrLost;
             }
 
+            logger.Log(LogLevels.Standard, "New Connection From {0}", e.Connection.ConnectionEndPoint);
+
             string connectionSourceKey = connectionSources.Single(s => s.Value == sender).Key;
 
             IConnectionHandler handler = sourceToHandlerMap[connectionSourceKey];

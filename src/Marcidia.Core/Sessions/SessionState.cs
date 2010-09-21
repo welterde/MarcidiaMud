@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Marcidia.Net;
+
+namespace Marcidia.Sessions
+{
+    public abstract class SessionState
+    {
+        public SessionState()
+        {
+        }
+
+        public Session Owner
+        {
+            get;
+            internal set;
+        }
+
+        internal void SendInput(string input)
+        {
+            OnInputRecieved(input);
+        }
+
+        protected abstract void OnInputRecieved(string input);
+        public abstract void Start();
+        public abstract void Stop();
+        public abstract void Resume();
+        public abstract void Pause();
+    }
+}

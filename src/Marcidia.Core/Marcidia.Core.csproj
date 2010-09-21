@@ -94,6 +94,16 @@
     <Compile Include="Net\IConnectionSource.cs" />
     <Compile Include="Net\IConnectionSourceRegistrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sessions\Configuration\SessionStartConfiguration.cs" />
+    <Compile Include="Sessions\Configuration\SessionStartConfigurationSectionHandler.cs" />
+    <Compile Include="Sessions\Session.cs" />
+    <Compile Include="Sessions\SessionInputReader.cs" />
+    <Compile Include="Sessions\SessionManager.cs" />
+    <Compile Include="Sessions\SessionStartConnectionHandler.cs" />
+    <Compile Include="Sessions\SessionState.cs" />
+    <Compile Include="Sessions\SessionStateBuilder.cs" />
+    <Compile Include="Sessions\SessionStateStack.cs" />
+    <Compile Include="ValueChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

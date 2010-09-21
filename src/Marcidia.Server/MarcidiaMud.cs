@@ -9,6 +9,7 @@ using Marcidia.ComponentLoading;
 using Marcidia.Net;
 using Marcidia.ComponentModel;
 using Marcidia;
+using Marcidia.Sessions;
 
 namespace Marcidia.Server
 {
@@ -23,6 +24,9 @@ namespace Marcidia.Server
 
             ConnectionManager connectionComponent = new ConnectionManager(this);
             Components.Add(connectionComponent);
+
+            SessionManager sessionManager = new SessionManager(this);
+            Components.Add(sessionManager);
 
             AutoComponentLoader componentLoader = new AutoComponentLoader(this);
             Components.Add(componentLoader);
