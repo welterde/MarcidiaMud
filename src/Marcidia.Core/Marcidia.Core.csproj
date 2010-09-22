@@ -86,6 +86,7 @@
     <Compile Include="Mud.cs" />
     <Compile Include="Net\ConnectionManager.cs" />
     <Compile Include="Net\ConnectionEventArgs.cs" />
+    <Compile Include="Net\ConnectionSteam.cs" />
     <Compile Include="Net\IConnection.cs" />
     <Compile Include="Net\IConnectionHandler.cs" />
     <Compile Include="Net\IConnectionHandlerRegistrar.cs" />
