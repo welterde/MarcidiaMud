@@ -10,6 +10,7 @@ using Marcidia.Net;
 using Marcidia.ComponentModel;
 using Marcidia;
 using Marcidia.Sessions;
+using Marcidia.Output;
 
 namespace Marcidia.Server
 {
@@ -21,6 +22,9 @@ namespace Marcidia.Server
         {
             LogComponent loggingComponent = new LogComponent(this);
             Components.Add(loggingComponent);
+
+            ConnectionWriterFactory connectionWriterFactory = new ConnectionWriterFactory(this);
+            Components.Add(connectionWriterFactory);
 
             ConnectionManager connectionComponent = new ConnectionManager(this);
             Components.Add(connectionComponent);

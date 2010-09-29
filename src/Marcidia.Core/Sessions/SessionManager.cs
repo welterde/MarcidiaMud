@@ -7,6 +7,7 @@ using Marcidia.Net;
 using Marcidia.Sessions.Configuration;
 using System.Configuration;
 using Marcidia;
+using Marcidia.Output;
 
 namespace Marcidia.Sessions
 {
@@ -15,6 +16,7 @@ namespace Marcidia.Sessions
     {
         private const string SessionStartConfigurationSection = "Marcidia.Sessions";
 
+        IConnectionWriterFactory connectionWriterFactory;
         SessionStateBuilder sessionStateBuilder;
         List<Session> sessions;
         List<SessionInputReader> sessionInputReaders;
@@ -29,9 +31,16 @@ namespace Marcidia.Sessions
          
         public override void Initialize()
         {
+            connectionWriterFactory = Mud.Services.GetService<IConnectionWriterFactory>();
+
+            LoadConfiguration();
+        }
+
+        private void LoadConfiguration()
+        {
             IConnectionHandlerRegistrar connectionHandlerRegistrar = Mud.Services.GetService<IConnectionHandlerRegistrar>();
 
-            IEnumerable<SessionStartConfiguration> sessionStartConfigurations = LoadAndValidateConfiguration();
+            IEnumerable<SessionStartConfiguration> sessionStartConfigurations = RetrieveSessionStartConfigurations();
 
             foreach (var sessionStartConfiguration in sessionStartConfigurations)
             {
@@ -41,7 +50,7 @@ namespace Marcidia.Sessions
             }
         }
 
-        private IEnumerable<SessionStartConfiguration> LoadAndValidateConfiguration()
+        private IEnumerable<SessionStartConfiguration> RetrieveSessionStartConfigurations()
         {
             return (IEnumerable<SessionStartConfiguration>)ConfigurationManager.GetSection(SessionStartConfigurationSection);
         }
@@ -54,7 +63,7 @@ namespace Marcidia.Sessions
 
             lock (sessions)
             {
-                session = Session.Create(connection, sessionState);
+                session = Session.Create(connection, sessionState, connectionWriterFactory);
 
                 sessions.Add(session);
             }

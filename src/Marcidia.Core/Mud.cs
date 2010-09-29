@@ -20,7 +20,7 @@ namespace Marcidia
             Services = new ServiceCollection();
 
             Components.ComponentAdded += Components_ComponentAdded;
-            Components.ComponentRemoved += Components_ComponentRemoved;
+            Components.ComponentRemoved += Components_ComponentRemoved;            
         }
 
         public event EventHandler Initializing;

@@ -15,7 +15,7 @@ namespace Marcidia.Server
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             MarcidiaMud mud = new MarcidiaMud();
 
             mud.Run();

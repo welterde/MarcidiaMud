@@ -1,15 +1,21 @@
 ﻿using System;
 using Marcidia.Net;
+using Marcidia.Output;
 
 namespace Marcidia.Sessions
 {
     public class Session : IDisposable
     {
+        private IConnectionWriterFactory connectionWriterFactory;
         private IConnection connection;
         private SessionStateStack stateStack;
 
-        private Session()
+        private Session(IConnectionWriterFactory connectionWriterFactory)
         {
+            if (connectionWriterFactory == null)
+                throw new ArgumentNullException("connectionWriterFactory", "connectionWriterFactory is null.");
+
+            this.connectionWriterFactory = connectionWriterFactory;
             stateStack = new SessionStateStack(this);
         }
 
@@ -28,6 +34,12 @@ namespace Marcidia.Sessions
             }
         }
 
+        public IConnectionWriter Output
+        {
+            get;
+            private set;
+        }
+
         public event EventHandler<ValueChangedEventArgs<IConnection>> ConnectionChanged;
 
         private void OnConnectionChanged(IConnection oldConnection, IConnection newConnection)
@@ -44,6 +56,8 @@ namespace Marcidia.Sessions
                 newConnection.ConnectionLost += OnConnectionLost;
             }
 
+            Output = connectionWriterFactory.GetWriterFor(newConnection);
+
             if (ConnectionChanged != null)
                 ConnectionChanged(this, new ValueChangedEventArgs<IConnection>(oldConnection, newConnection));
         }
@@ -56,7 +70,7 @@ namespace Marcidia.Sessions
                 SessionClosed(this, EventArgs.Empty);
         }
 
-        public static Session Create(IConnection connection, SessionState sessionState)
+        public static Session Create(IConnection connection, SessionState sessionState, IConnectionWriterFactory connectionWriterFactory)
         {
             if (connection == null)
                 throw new ArgumentNullException("connection", "connection is null.");
@@ -64,7 +78,7 @@ namespace Marcidia.Sessions
                 throw new ArgumentNullException("sessionState", "sessionState is null.");
 
             Session session =
-                new Session()
+                new Session(connectionWriterFactory)
                 {
                     Connection = connection
                 };
