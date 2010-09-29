@@ -103,7 +103,10 @@ namespace Marcidia.Sessions
                         input = streamReader.ReadLine();
 
                         if (input != null)
+                        {
+                            input = ProcessInputCharacters(input);
                             session.SendInput(input);
+                        }
 
                     } while (input != null);
                 }
@@ -112,6 +115,26 @@ namespace Marcidia.Sessions
             {
                 // we expect this!
             }
+        }
+
+        private string ProcessInputCharacters(string input)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '\b')
+                {
+                    if (builder.Length > 0)
+                        builder.Remove(builder.Length - 1, 1);
+
+                    continue;
+                }
+
+                builder.Append(input[i]);
+            }
+
+            return builder.ToString();
         }
     }
 }
