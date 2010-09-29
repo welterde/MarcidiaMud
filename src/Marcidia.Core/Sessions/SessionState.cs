@@ -18,6 +18,17 @@ namespace Marcidia.Sessions
             internal set;
         }
 
+        public IServiceProvider Services
+        {
+            get 
+            {
+                if (Session == null)
+                    return null;
+
+                return Session.Services; 
+            }
+        }
+
         internal void SendInput(string input)
         {
             OnInputRecieved(input);

@@ -63,7 +63,7 @@ namespace Marcidia.Sessions
 
             lock (sessions)
             {
-                session = Session.Create(connection, sessionState, connectionWriterFactory);
+                session = Session.Create(connection, sessionState, connectionWriterFactory, Mud.Services);
 
                 sessions.Add(session);
             }

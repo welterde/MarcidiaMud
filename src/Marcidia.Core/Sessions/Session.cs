@@ -40,6 +40,12 @@ namespace Marcidia.Sessions
             private set;
         }
 
+        public IServiceProvider Services
+        {
+            get;
+            private set;
+        }
+
         public event EventHandler<ValueChangedEventArgs<IConnection>> ConnectionChanged;
 
         private void OnConnectionChanged(IConnection oldConnection, IConnection newConnection)
@@ -70,7 +76,7 @@ namespace Marcidia.Sessions
                 SessionClosed(this, EventArgs.Empty);
         }
 
-        public static Session Create(IConnection connection, SessionState sessionState, IConnectionWriterFactory connectionWriterFactory)
+        public static Session Create(IConnection connection, SessionState sessionState, IConnectionWriterFactory connectionWriterFactory, IServiceProvider services)
         {
             if (connection == null)
                 throw new ArgumentNullException("connection", "connection is null.");
@@ -80,7 +86,8 @@ namespace Marcidia.Sessions
             Session session =
                 new Session(connectionWriterFactory)
                 {
-                    Connection = connection
+                    Connection = connection,
+                    Services = services
                 };
 
             session.PushState(sessionState);
