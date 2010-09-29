@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandArguments.cs" />
     <Compile Include="ComponentLoading\AutoComponentLoader.cs" />
     <Compile Include="ComponentModel\ComponentInfo.cs" />
     <Compile Include="ComponentModel\IInitializable.cs" />
