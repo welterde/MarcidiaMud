@@ -26,15 +26,20 @@ namespace Marcidia.Output
         {
             Write(string.Format(format, args));
         }
-
+        
         public override void WriteLine(string str)
         {
             Write(str + NewLine);
         }
 
+        public override void WriteLine()
+        {
+            WriteLine(string.Empty);
+        }
+
         public override void WriteLine(string format, params object[] args)
         {
-            Write(string.Format(format, args) + NewLine);
+            WriteLine(string.Format(format, args));
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Marcidia.Output
         
         void Write(string str);
         void Write(string format, params object[] args);
+        void WriteLine();
         void WriteLine(string str);
         void WriteLine(string format, params object[] args);
     }

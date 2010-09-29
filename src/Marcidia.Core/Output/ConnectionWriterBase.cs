@@ -43,6 +43,7 @@ namespace Marcidia.Output
 
         public abstract void Write(string str);
         public abstract void Write(string format, params object[] args);
+        public abstract void WriteLine();
         public abstract void WriteLine(string str);
         public abstract void WriteLine(string format, params object[] args);
     }

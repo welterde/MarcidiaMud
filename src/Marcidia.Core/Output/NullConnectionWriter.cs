@@ -17,6 +17,11 @@ namespace Marcidia.Output
             
         }
 
+        public void WriteLine()
+        {
+
+        }
+
         public void WriteLine(string str)
         {
             
@@ -37,6 +42,6 @@ namespace Marcidia.Output
             {
                 
             }
-        }
+        }        
     }
 }
