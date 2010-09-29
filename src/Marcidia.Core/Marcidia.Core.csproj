@@ -68,6 +68,15 @@
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandArguments.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\CommandBuilder.cs" />
+    <Compile Include="Commands\CommandContext.cs" />
+    <Compile Include="Commands\CommandInfo.cs" />
+    <Compile Include="Commands\CommandInfoBuilder.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ICommandContextFactory.cs" />
+    <Compile Include="Commands\ICommandRegistrar.cs" />
     <Compile Include="ComponentLoading\AutoComponentLoader.cs" />
     <Compile Include="ComponentModel\ComponentInfo.cs" />
     <Compile Include="ComponentModel\IInitializable.cs" />

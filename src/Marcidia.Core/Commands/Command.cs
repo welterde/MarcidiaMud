@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Marcidia.Commands
 {
-
-    public abstract class Command<T>
+    public abstract class Command<T> : ICommand
     {
         public IServiceProvider Services { get; private set; }
         public T Actor { get; private set; }        

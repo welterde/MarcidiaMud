@@ -15,16 +15,14 @@ namespace Marcidia.Commands
         StringReader stringReader;
         char current;
 
-        public CommandArguments(string commandLine)
+        private CommandArguments(string commandLine)
         {
             position = BOS;
             current = EOSMarker;
-            
-            CommandLine = commandLine;
-            
-            stringReader = new StringReader(commandLine);
 
-            ParseCommandLine();
+            CommandLine = commandLine;
+
+            stringReader = new StringReader(commandLine);            
         }
 
         public string CommandName { get; private set; }
@@ -34,6 +32,18 @@ namespace Marcidia.Commands
         public string ArgumentLine { get; private set; }
 
         public string[] Arguments { get; private set; }
+
+        public static CommandArguments CreateFrom(string commandLine)
+        {
+            if (String.IsNullOrWhiteSpace(commandLine))
+                return null;
+
+            var arguments = new CommandArguments(commandLine);
+
+            arguments.ParseCommandLine();
+
+            return arguments;
+        }
 
         private char GetNext()
         {
@@ -65,6 +75,20 @@ namespace Marcidia.Commands
         {
             CommandName = ReadCommandLineArgument();
             SkipWhiteSpace();
+
+            if (GetCurrent() != EOSMarker)
+                ReadArguments();
+            else
+            {
+                ArgumentLine = string.Empty;
+                Arguments = new string[0];
+            }
+
+            
+        }
+
+        private void ReadArguments()
+        {
             ArgumentLine = CommandLine.Substring(position);
 
             List<string> arguments = new List<string>();
