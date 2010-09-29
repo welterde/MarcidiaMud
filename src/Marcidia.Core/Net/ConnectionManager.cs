@@ -132,6 +132,8 @@ namespace Marcidia.Net
             {
                 connections.Remove(connection);
             }
+
+            logger.Log(LogLevels.Standard, "Connection from {0} has been closed", connection.ConnectionEndPoint);
         }
     }
 }
