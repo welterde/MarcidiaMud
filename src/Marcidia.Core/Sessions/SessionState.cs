@@ -12,7 +12,7 @@ namespace Marcidia.Sessions
         {
         }
 
-        public Session Owner
+        public Session Session
         {
             get;
             internal set;

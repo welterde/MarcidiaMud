@@ -30,7 +30,7 @@ namespace Marcidia.Sessions
                 if (previousState != null)
                     previousState.Pause();
 
-                state.Owner = owner;
+                state.Session = owner;
                 sessionStates.Push(state);
                 state.Start();
             }
@@ -45,7 +45,7 @@ namespace Marcidia.Sessions
 
                 SessionState currentState = sessionStates.Pop();
                 currentState.Stop();
-                currentState.Owner = null;
+                currentState.Session = null;
 
                 SessionState previousState = sessionStates.Peek();
 
