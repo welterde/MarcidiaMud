@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Configuration\TelnetListenerConfiguration.cs" />
     <Compile Include="Configuration\TelnetListenerConfigurationSectionHandler.cs" />
+    <Compile Include="TelnetAnsiOutputWriter.cs" />
     <Compile Include="TelnetConnection.cs" />
     <Compile Include="TelnetConnectionComponent.cs" />
     <Compile Include="TelnetConnectionSource.cs" />
