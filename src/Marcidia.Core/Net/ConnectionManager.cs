@@ -128,6 +128,9 @@ namespace Marcidia.Net
         {
             IConnection connection = (IConnection)sender;
 
+            connection.ConnectionClosed -= OnConnectionClosedOrLost;
+            connection.ConnectionLost -= OnConnectionClosedOrLost;    
+
             lock (connections)
             {
                 connections.Remove(connection);
