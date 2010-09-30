@@ -28,7 +28,11 @@ namespace Marcidia.ComponentLoading
         {
             logger = mud.Services.GetService<ILogger>();
 
+            logger.Log(LogLevels.Standard, "=== Auto Component Loader ===");
+
             LoadComponents();
+
+            logger.Log(LogLevels.Standard, "=============================");
         }
 
         private  void LoadComponents()
@@ -72,8 +76,6 @@ namespace Marcidia.ComponentLoading
 
             IEnumerable<Type> componentTypes = GetComponentTypes(assembly);
 
-            logger.Log(LogLevels.Standard, "=== Auto Component Loader ===");
-
             foreach (var componentType in componentTypes)
             {
                 MarcidiaComponentAttribute componentAttrib = GetComponentAttributeFromComponentType(componentType);
@@ -96,8 +98,6 @@ namespace Marcidia.ComponentLoading
                     componentAttrib.Author);
 
             }
-
-            logger.Log(LogLevels.Standard, "Auto component loading completed");
 
             return loadedComponents;
         }
