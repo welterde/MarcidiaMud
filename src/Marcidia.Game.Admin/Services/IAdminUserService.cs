@@ -9,7 +9,7 @@ namespace Marcidia.Game.Admin.Services
     interface IAdminUserService
     {
         AdminUser CreateAdminUser(string username, string password);
-        AdminUser Login(string username, string password);
-        bool ValidUsername(string username);
+        AdminUser ValidateLogin(string username, string password);
+        bool IsValidUsername(string username);
     }
 }

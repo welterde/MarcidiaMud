@@ -90,7 +90,7 @@ namespace Marcidia.Game.Admin.SessionStates
 
         private bool AttemptLogin()
         {
-            AdminUser adminUser = adminUserService.Login(username, password);
+            AdminUser adminUser = adminUserService.ValidateLogin(username, password);
 
             username = string.Empty;
             password = string.Empty;

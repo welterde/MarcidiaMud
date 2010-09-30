@@ -29,7 +29,7 @@ namespace Marcidia.Game.Admin.Services
                 throw new ArgumentException("username is null or empty.", "username");
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentException("password is null or empty.", "password");
-            if (!ValidUsername(username))
+            if (!IsValidUsername(username))
                 throw new ArgumentException("Invalid username", "username");
             if (AdminUserExists(username))
                 throw new ArgumentException("Username is already in use.", username);
@@ -41,14 +41,14 @@ namespace Marcidia.Game.Admin.Services
             return newUser;
         }
 
-        public AdminUser Login(string username, string password)
+        public AdminUser ValidateLogin(string username, string password)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentException("username is null or empty.", "username");
             if (String.IsNullOrEmpty(password))
                 throw new ArgumentException("password is null or empty.", "password");
 
-            if (!ValidUsername(username))
+            if (!IsValidUsername(username))
                 return null;
 
             if (!AdminUserExists(username))
@@ -64,7 +64,7 @@ namespace Marcidia.Game.Admin.Services
             return user;
         }
 
-        public bool ValidUsername(string username)
+        public bool IsValidUsername(string username)
         {
             for (int i = 0; i < username.Length; i++)
             {
