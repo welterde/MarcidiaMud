@@ -40,8 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminComponent.cs" />
+    <Compile Include="AdminUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\FlatFileAdminUserRepository.cs" />
+    <Compile Include="Repositories\IAdminUserRepository.cs" />
+    <Compile Include="Serialization\AdminUserReader.cs" />
+    <Compile Include="Serialization\AdminUserWriter.cs" />
+    <Compile Include="Services\AdminUserService.cs" />
+    <Compile Include="Services\IAdminUserService.cs" />
+    <Compile Include="Services\IStringHasher.cs" />
+    <Compile Include="Services\StringHasher.cs" />
     <Compile Include="SessionStates\AdminSplashScreenState.cs" />
+    <Compile Include="SessionStates\LoginState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marcidia.Core\Marcidia.Core.csproj">

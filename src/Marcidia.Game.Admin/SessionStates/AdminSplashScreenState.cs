@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Marcidia.Game.Admin.SessionStates
 {
-    public class AdminSplashScreenState : SessionState
+    class AdminSplashScreenState : SessionState
     {
         public const string SplashScreenFile = @"Data\AdminSplashScreen.txt";
 
@@ -24,6 +24,8 @@ namespace Marcidia.Game.Admin.SessionStates
             LoadSplashScreen();
 
             Output.WriteLine(SplashScreenText);
+
+            Session.PushState(new LoginState());
         }
 
         public override void Stop()
