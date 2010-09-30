@@ -65,10 +65,22 @@ namespace Marcidia.Sessions
             {
                 session = Session.Create(connection, sessionState, connectionWriterFactory, Mud.Services);
 
+                session.SessionClosed += OnSessionClosed;
+
                 sessions.Add(session);
             }
 
             CreateAndStartInputThreadFor(session);
+        }
+
+        private void OnSessionClosed(object sender, EventArgs e)
+        {
+            Session session = (Session)sender;
+
+            lock (sessions)
+            {
+                sessions.Remove(session);
+            }
         }
 
         private void CreateAndStartInputThreadFor(Session session)

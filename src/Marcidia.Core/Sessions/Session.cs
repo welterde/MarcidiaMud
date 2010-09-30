@@ -52,14 +52,14 @@ namespace Marcidia.Sessions
         {
             if (oldConnection != null)
             {
-                oldConnection.ConnectionClosed -= OnConnectionClosed;
-                oldConnection.ConnectionLost -= OnConnectionLost;
+                oldConnection.ConnectionClosed -= OnConnectionLostOrClosed;
+                oldConnection.ConnectionLost -= OnConnectionLostOrClosed;
             }
 
             if (newConnection != null)
             {
-                newConnection.ConnectionClosed += OnConnectionClosed;
-                newConnection.ConnectionLost += OnConnectionLost;
+                newConnection.ConnectionClosed += OnConnectionLostOrClosed;
+                newConnection.ConnectionLost += OnConnectionLostOrClosed;
             }
 
             Output = connectionWriterFactory.GetWriterFor(newConnection);
@@ -126,12 +126,7 @@ namespace Marcidia.Sessions
             Close();
         }
 
-        private void OnConnectionLost(object sender, EventArgs e)
-        {
-            connection = null;
-        }
-
-        private void OnConnectionClosed(object sender, EventArgs e)
+        private void OnConnectionLostOrClosed(object sender, EventArgs e)
         {
             connection = null;
         }
