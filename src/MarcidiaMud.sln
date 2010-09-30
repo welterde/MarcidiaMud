@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marcidia.Net.Telnet", "Marc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{24A55A1F-F705-4D43-821E-48DDD87E253D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marcidia.Game.Admin", "Marcidia.Game.Admin\Marcidia.Game.Admin.csproj", "{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +29,16 @@ Global
 		{A755B828-D6B8-4664-B106-1D8E3ADDC1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A755B828-D6B8-4664-B106-1D8E3ADDC1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A755B828-D6B8-4664-B106-1D8E3ADDC1E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A755B828-D6B8-4664-B106-1D8E3ADDC1E8} = {24A55A1F-F705-4D43-821E-48DDD87E253D}
+		{58BEA4C4-0BF8-4D5E-9A0B-EA327AD0E4E7} = {24A55A1F-F705-4D43-821E-48DDD87E253D}
 	EndGlobalSection
 EndGlobal
