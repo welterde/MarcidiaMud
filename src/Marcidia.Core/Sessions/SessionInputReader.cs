@@ -11,6 +11,7 @@ namespace Marcidia.Sessions
 {
     public class SessionInputReader : IDisposable
     {
+        bool connectionChanged;
         bool disposed;
         Session session;
         Thread inputThread;
@@ -20,12 +21,13 @@ namespace Marcidia.Sessions
             if (session == null)
                 throw new ArgumentNullException("session", "session is null.");
 
+            this.connectionChanged = false;
             this.session = session;
             this.inputThread = null;
             this.disposed = false;
-            
+
             WireUpEvents();
-        }        
+        }
 
         public void Start()
         {
@@ -69,8 +71,13 @@ namespace Marcidia.Sessions
 
         private void SessionConnectionChanged(object sender, ValueChangedEventArgs<IConnection> e)
         {
-            Stop();
-            Start();
+            if (inputThread != Thread.CurrentThread)
+            {
+                Stop();
+                Start();
+            }
+            else
+                connectionChanged = true;
         }
 
         public event EventHandler Disposed;
@@ -93,27 +100,46 @@ namespace Marcidia.Sessions
         {
             try
             {
-                using (ConnectionStream stream = new ConnectionStream(session.Connection))
-                using (StreamReader streamReader = new StreamReader(stream, Encoding.ASCII))
+                do
                 {
-                    string input = null;
+                    connectionChanged = false;
 
-                    do
-                    {
-                        input = streamReader.ReadLine();
+                    DoReadLoop();
 
-                        if (input != null)
-                        {
-                            input = ProcessInputCharacters(input);
-                            session.SendInput(input);
-                        }
-
-                    } while (input != null);
-                }
+                // if connectionChanged gets set back to true before hitting here
+                // it means we need to start reading from a new connection, so we
+                // just loop back round...
+                } while (connectionChanged);
             }
             catch (ThreadInterruptedException)
             {
                 // we expect this!
+            }
+        }
+
+        /// <summary>
+        /// Does the "infinite" read loop. Loops round as long as it recieves input.
+        /// Blocks while it waits.
+        /// Exits when the stream its reading from is closed;
+        /// </summary>
+        private void DoReadLoop()
+        {
+            using (ConnectionStream stream = new ConnectionStream(session.Connection))
+            using (StreamReader streamReader = new StreamReader(stream, Encoding.ASCII))
+            {
+                string input = null;
+
+                do
+                {
+                    input = streamReader.ReadLine();
+
+                    if (input != null)
+                    {
+                        input = ProcessInputCharacters(input);
+                        session.SendInput(input);
+                    }
+
+                } while (input != null && !connectionChanged);
             }
         }
 
