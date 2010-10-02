@@ -47,7 +47,9 @@
     <Compile Include="Repositories\IAdminUserRepository.cs" />
     <Compile Include="Serialization\AdminUserReader.cs" />
     <Compile Include="Serialization\AdminUserWriter.cs" />
+    <Compile Include="Services\AdminLoginManager.cs" />
     <Compile Include="Services\AdminUserService.cs" />
+    <Compile Include="Services\IAdminLoginManager.cs" />
     <Compile Include="Services\IAdminUserService.cs" />
     <Compile Include="Services\IStringHasher.cs" />
     <Compile Include="Services\StringHasher.cs" />

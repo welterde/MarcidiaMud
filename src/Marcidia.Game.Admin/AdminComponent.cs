@@ -23,8 +23,10 @@ namespace Marcidia.Game.Admin
             IStringHasher stringHasher = new StringHasher("Test", "Test");
             IAdminUserRepository adminUserRepository = new FlatFileAdminUserRepository(DataDirectoryPath);
             IAdminUserService adminUserService = new AdminUserService(stringHasher, adminUserRepository);
+            IAdminLoginManager adminLoginManager = new AdminLoginManager();
 
             Mud.Services.AddService<IAdminUserService>(adminUserService);
+            Mud.Services.AddService<IAdminLoginManager>(adminLoginManager);
         }
 
         public override void Initialize()

@@ -18,6 +18,8 @@ namespace Marcidia.Game.Admin.SessionStates
         }
 
         IAdminUserService adminUserService;
+        IAdminLoginManager adminLoginManager;
+
         State state;
         string username;
         string password;
@@ -45,6 +47,7 @@ namespace Marcidia.Game.Admin.SessionStates
         public override void Start()
         {
             adminUserService = Services.GetService(typeof(IAdminUserService)) as IAdminUserService;
+            adminLoginManager = Services.GetService(typeof(IAdminLoginManager)) as IAdminLoginManager;
 
             Run();
         }
@@ -79,6 +82,7 @@ namespace Marcidia.Game.Admin.SessionStates
                     break;
                 case State.EnterPassword:
                     if (AttemptLogin())
+                        // really need to switch session state here...
                         state = (State)10;
                     else
                         state = State.AskForUsername;
@@ -101,6 +105,7 @@ namespace Marcidia.Game.Admin.SessionStates
                 return false;
             }
 
+            adminLoginManager.PerformLogin(adminUser, Session);
             Output.WriteLine("Login Successful");
             // just here to cause the connection to hang
             return true;
