@@ -24,20 +24,31 @@ namespace Marcidia.Game.Admin.Repositories
 
         public AdminUser Find(string username)
         {
-            username = username.ToLower();            
-            
-            return CheckCacheFor(username) ?? ReadUserFromFile(username);
+            if (String.IsNullOrEmpty(username))
+                throw new ArgumentException("username is null or empty.", "username");
+
+            username = username.ToLower();
+
+            AdminUser user = CheckCacheFor(username) ?? ReadUserFromFile(username);
+
+            if (user != null)
+                AddToCache(user);
+
+            return user;
         }
 
         public void Save(AdminUser user)
         {
+            if (user == null)
+                throw new ArgumentNullException("user", "user is null.");
+
             WriteUserToFile(user);
 
             AddToCache(user);
         }
 
         private void AddToCache(AdminUser user)
-        {
+        {            
             lock (cache)
             {
                 cache[user.Name.ToLower()] = user;
@@ -45,11 +56,11 @@ namespace Marcidia.Game.Admin.Repositories
         }
 
         private AdminUser CheckCacheFor(string username)
-        {        
+        { 
             lock (cache)
             {
                 if (cache.ContainsKey(username))
-                {                    
+                {
                     return cache[username];
                 }
             }
