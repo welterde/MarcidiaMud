@@ -126,6 +126,25 @@ namespace Marcidia.Sessions
             Close();
         }
 
+        // The name implies the reverse of what happens, yet I can't think of a better name.
+        // Your not taking control of the Session
+        // Your replacing your connection with the connection of the passed in session.
+        // which gives the impression that the passed in session has taken control of
+        // this session.
+        public void TakeControlOf(Session session)
+        {
+            IConnection oldConnection = this.Connection;
+            IConnection newConnection = session.Connection;
+            
+            session.Connection = null;
+            this.Connection = newConnection;
+
+            // We have to close the old, now orphaned connection
+            oldConnection.Close();
+            // and the session who we've just wrestled control from
+            session.Close();
+        }
+
         private void OnConnectionLostOrClosed(object sender, EventArgs e)
         {
             connection = null;
