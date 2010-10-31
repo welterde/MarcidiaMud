@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +35,7 @@ namespace Marcidia.Commands
 
         public static CommandArguments CreateFrom(string commandLine)
         {
-            if (String.IsNullOrWhiteSpace(commandLine))
+            if (commandLine == null || commandLine.Trim().Equals(""))
                 return null;
 
             var arguments = new CommandArguments(commandLine);
